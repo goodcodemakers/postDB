@@ -1,0 +1,14 @@
+/* style.css */
+a {
+  color: #000;
+}
+.container {
+  width: 80%;
+  border: 1px solid #000;
+  margin: 0 auto;
+  padding: 1rem;
+}
+input {
+  padding: 5px;
+  border-radius: 10px;
+}
