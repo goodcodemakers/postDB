@@ -3,45 +3,47 @@ const app = express();
 const ejs = require("ejs");
 const fs = require("fs");
 
-// 글 DB
 let posts = [];
-//파일 읽기
 const reafile = fs.readFileSync("postDB.json", "utf-8");
-//오브젝트 코드로 변환
 const jsonData = JSON.parse(reafile);
 posts = [...jsonData];
 
-//post 요청시 필요
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-// ejs를 view 엔진으로 설정
+
 app.set("view engine", "ejs");
 
-// 정적파일 경로 지정
 app.use(express.static("public"));
 
-// home
-app.get("/", function (요청, 응답) {
-  응답.render("pages/index.ejs", { posts });
+app.get("/", function (req, res) {
+  res.render("pages/index.ejs", { posts });
 });
-
-// about
-app.get("/about", function (req, res) {
-  res.render("pages/about.ejs");
-});
-//create
 app.post("/create", function (req, res) {
   const post = req.body.post;
-  //DB에 글저장
-  posts.push(post); //posts 배열에 글 추가
-  fs.writeFileSync("postDB.json", JSON.stringify(posts));
-  console.log(posts);
+  let a = {};
+  a.text = post[0];
+  a.author = post[1];
+  a.psw = post[2];
 
-  //홈 (게시판)으로 이동
+  const day = new Date();
+  let year = day.getFullYear();
+  let month = day.getMonth() + 1;
+  let date = day.getDate();
+  let today = `${year}.${month}.${date}`;
+  a.today = today;
+  posts.push(a);
+  fs.writeFileSync("postDB.json", JSON.stringify(posts));
+  res.redirect("/");
+});
+app.post("/delete/:id", function (req, res) {
+  const id = req.params.id;
+
+  posts.splice(id, 1);
+  fs.writeFileSync("postDB.json", JSON.stringify(posts));
   res.redirect("/");
 });
 
-const port = 3002;
+const port = 3003;
 app.listen(port, () => {
-  console.log(`server running at ${port}`);
+  console.log(`server${port}`);
 });

@@ -4,32 +4,166 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Home</title>
+    <title>새해축하페이지</title>
+    <meta
+      name="description"
+      content="새해에 축하하는 마음으로 쓰는 게시판이 있는 앱입니다. ."
+    />
+    <meta name="keywords" content="새해,새해축하 ,서버페이지,2023" />
+    <meta name="author" content="최정호" />
+    <meta name="og:site_name" content="새해축하페이지" />
+    <meta name="og:title" content="새해축하페이지" />
+    <meta
+      name="og:description"
+      content="새해에 축하하는 마음으로 쓰는 게시판이 있는 앱입니다."
+    />
+    <meta
+      name="og:url"
+      content="https://port-0-new-year-page-fao2flc07msv7.gksl2.cloudtype.app/"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css"
+    />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/style.css" />
   </head>
   <body>
-    <nav class="container">
-      <a href="/">home</a> |
-      <a href="/about">about</a>
-    </nav>
     <div class="container">
-      <h1>게시판</h1>
-      <form action="/create" method="post">
-        <input
-          type="text"
-          id="post"
-          name="post"
-          placeholder="글을 입력하세요"
-        /><br /><br />
-        <button type="submit">글쓰기</button>
-      </form>
       <section>
-        <h2>글목록</h2>
-        <% for( let i = 0; i < posts.length; i++ ) { %> <% console.log(typeof
-        posts[6]);%>
-        <p><%=posts[i]%></p>
-        <% } %>
+        <div class="mainpage">
+          <div class="maintextbox">
+            <h1>근하 신년</h1>
+            <p>희망찬 새해 해운이 가득하시기 바랍니다</p>
+          </div>
+        </div>
+      </section>
+      <section class="main2">
+        <div class="subpage1">
+          <div data-aos="fade-up" data-aos-duration="3000">
+            <h3>새해에는 항상 건강하시고 좋은 일 가득하시길 기원합니다.</h3>
+          </div>
+        </div>
+        <div class="swiper mySwiper">
+          <div class="swiper-wrapper">
+            <div class="swiper-slide">
+              <img src="img/img1.jpg" alt="이미지" />
+            </div>
+            <div class="swiper-slide">
+              <img src="img/img2.jpg" alt="이미지" />
+            </div>
+            <div class="swiper-slide">
+              <img src="img/img3.jpg" alt="이미지" />
+            </div>
+          </div>
+          <!-- swiper-wrapper-->
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+          <div class="swiper-pagination"></div>
+        </div>
+
+        <div class="subpage2">
+          <p>
+            다사다난했던 지난 해 무거운 짐들은 다 털어내시고 새로운 희망, 새로운
+            마음으로 새해 힘차게 출발하시기 바랍니다. 새해 복 많이 받으세요.
+          </p>
+          <h3>최정호 드림</h3>
+        </div>
+      </section>
+      <hr />
+      <section>
+        <div class="bulletin">
+          <h4>덕담 한마디</h4>
+          <form action="/create" method="post">
+            <textarea
+              name="post"
+              id="post"
+              cols="30"
+              rows="10"
+              maxlength="255"
+              minlength="2"
+              required
+              placeholder="신년축하 인삿말을 작성해 주세요."
+            ></textarea>
+            <div>
+              <input
+                type="text"
+                placeholder="작성자명"
+                class="username"
+                name="post"
+                required
+              />
+              <input
+                type="password"
+                placeholder="비밀번호"
+                class="psw"
+                name="post"
+                required
+              />
+            </div>
+            <button type="submit" class="subButton">글쓰기</button>
+          </form>
+          <div class="contentbox">
+            <div class="contantlistBox">
+              <h1 class="contantlist">댓글수 <%= posts.length %></h1>
+            </div>
+            <% for( let i = posts.length -1; i >= 0; i--) { %>
+            <div class="content">
+              <div class="usertitle">
+                <div>
+                  <h4 class="usertiltle-name"><%= posts[i].author %></h4>
+                  <p><%= posts[i].today%></p>
+                </div>
+                <div>
+                  <form action="/delete/<%= i %> " method="post">
+                    <button>
+                      <img src="img/Vector.svg" alt="쓰레기통" class="delete" />
+                    </button>
+                  </form>
+                </div>
+              </div>
+              <div class="userContent">
+                <p><%= posts[i].text %></p>
+              </div>
+            </div>
+            <% } %>
+          </div>
+        </div>
       </section>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+    <script>
+      var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 1,
+        spaceBetween: 30,
+        loop: true,
+        centeredSlides: true,
+        autoplay: {
+          delay: 3000,
+          disableOnInteraction: false,
+        },
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
+        },
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    </script>
+    <script>
+      let mainPage = document.querySelector(".mainpage");
+      let num = 1;
+      mainPage.addEventListener("click", () => {
+        num++;
+        if (num == 3) num = 1;
+        mainPage.style.backgroundImage = `linear-gradient(#0003, #003),url(../img/mainImg${num}.jpg)`;
+      });
+    </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+      AOS.init();
+    </script>
   </body>
 </html>
